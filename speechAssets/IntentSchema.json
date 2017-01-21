@@ -1,0 +1,24 @@
+{
+  "intents": [
+    {
+      "intent": "GetPhoneNumber",
+      "slots": [
+        {
+          "name": "FirstName",
+          "type": "AMAZON.LITERAL"
+        },
+        {
+          "name": "LastName",
+          "type": "AMAZON.LITERAL"
+        },
+        {
+          "name": "Major",
+          "type": "AMAZON.LITERAL"
+    
+        
+      
+          }
+      ]
+    }
+  ]
+}
