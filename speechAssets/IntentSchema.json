@@ -1,24 +1,21 @@
 {
-  "intents": [
-    {
-      "intent": "GetPhoneNumber",
-      "slots": [
+    "intents": [
         {
-          "name": "FirstName",
-          "type": "AMAZON.LITERAL"
-        },
-        {
-          "name": "LastName",
-          "type": "AMAZON.LITERAL"
-        },
-        {
-          "name": "Major",
-          "type": "AMAZON.LITERAL"
-    
-        
-      
-          }
-      ]
-    }
-  ]
+            "intent": "GetPhoneNumber",
+            "slots": [
+                {
+                  "name": "FirstName",
+                  "type": "LIST_OF_FIRST_NAME"
+                },
+                {
+                  "name": "LastName",
+                  "type": "LIST_OF_LAST_NAME"
+                },
+                {
+                  "name": "Major",
+                  "type": "LIST_OF_MAJORS"
+                }
+            ]
+        }
+    ]
 }
