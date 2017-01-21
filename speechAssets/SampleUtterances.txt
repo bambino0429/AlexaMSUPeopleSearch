@@ -1,0 +1,9 @@
+GetPhoneNumber {Scott|FirstName}
+GetPhoneNumber What is {Scott|FirstName} {Swarthout|LastName} phone number
+GetPhoneNumber What is {Scott|FirstName} number
+GetPhoneNumber What is {Scott | FirstName} phone number their major is {Computer Science|Major}
+GetPhoneNumber {Scott|FirstName} {Swarthout|LastName}
+GetPhoneNumber {Scott|FirstName} is a {Computer Science|Major}
+GetPhoneNumber What is the number for {Scott|FirstName} {Swarthout|LastName}
+GetPhoneNumber Get me the number for {Scott|FirstName} {Swarthout|LastName}
+GetPhoneNumber Get me {Scott|FirstName} {Swarthout|LastName} number
