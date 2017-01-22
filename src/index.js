@@ -68,6 +68,7 @@ function onScan(err, data) {
         console.log(data);
         if (data.Items !== []) {
             data.Items.forEach(function(item) {
+				if (store == "Not Found")
 					store = item.phone;
             });
         }
