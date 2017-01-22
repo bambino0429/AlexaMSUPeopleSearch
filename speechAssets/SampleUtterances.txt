@@ -7,3 +7,5 @@ GetPhoneNumber {Scott|FirstName} is a {Computer Science|Major}
 GetPhoneNumber What is the number for {Scott|FirstName} {Swarthout|LastName}
 GetPhoneNumber Get me the number for {Scott|FirstName} {Swarthout|LastName}
 GetPhoneNumber Get me {Scott|FirstName} {Swarthout|LastName} number
+
+RemoveData {LIST_OF_ANSWERS}
