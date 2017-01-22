@@ -47,11 +47,13 @@ function getPhoneNumber(context) {
         FilterExpression: "contains(#first_name, :firstname) and contains(#last_name, :lastname) and #phone <> :space",
         ExpressionAttributeNames: {
             "#first_name" : "first_name",
-            "#last_name" : "last_name"
+            "#last_name" : "last_name",
+            "#phone": "phone"
         },
         ExpressionAttributeValues: {
             ":firstname": sanitizedFirstName,
-            ":lastname": sanitizedLastName
+            ":lastname": sanitizedLastName,
+            ":space": " "
         }
     };
 
