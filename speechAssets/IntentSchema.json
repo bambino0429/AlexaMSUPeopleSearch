@@ -15,7 +15,7 @@
                   "name": "Major",
                   "type": "LIST_OF_MAJORS"
                 }
-            ]
+            ],
             "intent": "RemoveData",
             "slots": [
                 {
