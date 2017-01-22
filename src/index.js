@@ -12,7 +12,7 @@ const Alexa = require('alexa-sdk');
 var aws = require('aws-sdk');
 var params;
 var docClient = new aws.DynamoDB.DocumentClient();
-var store = "test";
+var store = "Not Found";
 var c;
 var firstName, lastName, major;
 //const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
@@ -68,7 +68,7 @@ function onScan(err, data) {
         console.log(data);
         if (data.Items !== []) {
             data.Items.forEach(function(item) {
-                store = item.phone;
+					store = item.phone;
             });
         }
         console.log(store);
