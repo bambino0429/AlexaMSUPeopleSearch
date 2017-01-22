@@ -5,11 +5,11 @@
             "slots": [
                 {
                   "name": "FirstName",
-                  "type": "LIST_OF_FIRST_NAME"
+                  "type": "LIST_OF_FIRST_NAMES"
                 },
                 {
                   "name": "LastName",
-                  "type": "LIST_OF_LAST_NAME"
+                  "type": "LIST_OF_LAST_NAMES"
                 },
                 {
                   "name": "Major",
