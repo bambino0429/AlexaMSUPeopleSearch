@@ -25,37 +25,14 @@ exports.handler = function(event, context, callback) {
 var params;
 var docClient = new aws.DynamoDB.DocumentClient();
 var store = "test";
+var c;
 
-function getPhoneNumber(context, callback) {
+function getPhoneNumber(context) {
         firstName = (context.event.request.intent.slots.FirstName.value);
         lastName = (context.event.request.intent.slots.LastName.value);
 
         //major = context.event.request.intent.slots.Major).toString();
         var thing = context;
-        
-        //var payload;
-    
-        /*var lambda = new aws.Lambda({
-          region: 'us-east-1' //change to scotty
-        });
-        
-        //stringify JSON for Name, call it student_name
-        var student_name = JSON.stringify({firstname : firstName, lastname : lastName, major : major});
-        
-        var params = {
-            FunctionName: "stalkerdb-dev-search",
-            Payload: student_name
-        };
-        lambda.invoke(params, function(err, data) {
-            if(err) console.log(err, err.stack);
-            else {//change this to deliver payload back to alexa
-                console.log(data.Payload);
-                payload = data.Payload;
-            }
-        });*/
-        
-        //Implement an efficient search for the dynamodb
-        //If key is based on alphabetical first name, this is easier.  But likely it's based on an arbitrary number.  So linear search it is.
         
         
         docClient = new aws.DynamoDB.DocumentClient();
@@ -65,7 +42,7 @@ function getPhoneNumber(context, callback) {
         params = {
                 TableName: "People",//test lastname later with 'and'
                 //KeyConditionExpression: "id = :id",
-                FilterExpression: "#first_name = :firstname and #last_name = :lastname",
+                FilterExpression: "contains(#first_name, :firstname) and contains(#last_name, :lastname)",
                 ExpressionAttributeNames: {
                     "#first_name" : "first_name",
                     "#last_name" : "last_name"
@@ -78,7 +55,8 @@ function getPhoneNumber(context, callback) {
         
         docClient.scan(params, onScan);
         console.log(store);
-
+        
+        //callback();
 }
 
 function onScan(err, data) {
@@ -100,6 +78,10 @@ function onScan(err, data) {
         params.ExclusiveStartKey = data.LastEvaluatedKey;
         docClient.scan(params, onScan);
     }
+    else {
+        c.emit(':tell',"The number you're looking for is " + store);
+        c.emit(':ask', 'Would you like to learn how to edit your information on MSU people search?');
+    }
 }
 
 var firstName, lastName, major;
@@ -109,66 +91,8 @@ var handlers = {
         this.emit(':ask', 'Give me a name');
     },
     'GetPhoneNumber': function () {
-        //var that = this;
-       // getPhoneNumber(this);
-        
-        firstName = (this.event.request.intent.slots.FirstName.value);
-        lastName = (this.event.request.intent.slots.LastName.value);
-
-        //major = context.event.request.intent.slots.Major).toString();
-       // var thing = context;
-        
-        //var payload;
-    
-        /*var lambda = new aws.Lambda({
-          region: 'us-east-1' //change to scotty
-        });
-        
-        //stringify JSON for Name, call it student_name
-        var student_name = JSON.stringify({firstname : firstName, lastname : lastName, major : major});
-        
-        var params = {
-            FunctionName: "stalkerdb-dev-search",
-            Payload: student_name
-        };
-        lambda.invoke(params, function(err, data) {
-            if(err) console.log(err, err.stack);
-            else {//change this to deliver payload back to alexa
-                console.log(data.Payload);
-                payload = data.Payload;
-            }
-        });*/
-        
-        //Implement an efficient search for the dynamodb
-        //If key is based on alphabetical first name, this is easier.  But likely it's based on an arbitrary number.  So linear search it is.
-        
-        
-        docClient = new aws.DynamoDB.DocumentClient();
-        
-        console.log("Searching for phone number...");
-            
-        params = {
-                TableName: "People",//test lastname later with 'and'
-                //KeyConditionExpression: "id = :id",
-                FilterExpression: "#first_name = :firstname and #last_name = :lastname",
-                ExpressionAttributeNames: {
-                    "#first_name" : "first_name",
-                    "#last_name" : "last_name"
-                },
-                ExpressionAttributeValues: {
-                    ":firstname": firstName,
-                    ":lastname": lastName
-                }
-        };
-        
-        docClient.scan(params, onScan);
-        console.log(store);
-
-        
-        
-        
-         this.emit(':tell',"The number you're looking for is " + store);
-        this.emit(':ask', 'Would you like to learn how to edit your information on MSU people search?');
+        c = this;
+        getPhoneNumber(this);
     },
     'RemoveData' : function () {
         var answer = this.event.request.intent.slots.Answer;
