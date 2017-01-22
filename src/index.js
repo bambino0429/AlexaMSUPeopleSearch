@@ -31,7 +31,14 @@ function getPhoneNumber(context) {
     //major = context.event.request.intent.slots.Major).toString();
 
     docClient = new aws.DynamoDB.DocumentClient();
+    
+	console.log(firstName + " " + lastName);
     console.log("Searching for phone number...");
+        
+    //Sanitize Name Input
+    var sanitizedFirstName = firstName.substring(0,1).toUpperCase() + firstName.substring(1,firstName.length);
+    var sanitizedLastName = lastName.substring(0,1).toUpperCase() + lastName.substring(1,lastName.length);
+    console.log("Sanitized Name: " + sanitizedFirstName + " " + sanitizedLastName);
 
     params = {
         TableName: "People",//test lastname later with 'and'
@@ -42,8 +49,8 @@ function getPhoneNumber(context) {
             "#last_name" : "last_name"
         },
         ExpressionAttributeValues: {
-            ":firstname": firstName,
-            ":lastname": lastName
+            ":firstname": sanitizedFirstName,
+            ":lastname": sanitizedLastName
         }
     };
 
