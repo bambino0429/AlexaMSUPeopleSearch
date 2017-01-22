@@ -2,7 +2,6 @@
   Alexa MSU People Search app
   For Spartahack 2017
   Contributors:
-    Adam Austad
     Brian Wang
     Koshiro Iwasaki
     Reid Wildenhaus
@@ -10,8 +9,12 @@
 */
 
 const Alexa = require('alexa-sdk');
- var aws = require('aws-sdk');
-//
+var aws = require('aws-sdk');
+var params;
+var docClient = new aws.DynamoDB.DocumentClient();
+var store = "test";
+var c;
+var firstName, lastName, major;
 //const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
 
 exports.handler = function(event, context, callback) {
@@ -22,41 +25,31 @@ exports.handler = function(event, context, callback) {
     alexa.execute();
 };
 
-var params;
-var docClient = new aws.DynamoDB.DocumentClient();
-var store = "test";
-var c;
-
 function getPhoneNumber(context) {
-        firstName = (context.event.request.intent.slots.FirstName.value);
-        lastName = (context.event.request.intent.slots.LastName.value);
+    firstName = (context.event.request.intent.slots.FirstName.value);
+    lastName = (context.event.request.intent.slots.LastName.value);
+    //major = context.event.request.intent.slots.Major).toString();
 
-        //major = context.event.request.intent.slots.Major).toString();
-        var thing = context;
-        
-        
-        docClient = new aws.DynamoDB.DocumentClient();
-        
-        console.log("Searching for phone number...");
-            
-        params = {
-                TableName: "People",//test lastname later with 'and'
-                //KeyConditionExpression: "id = :id",
-                FilterExpression: "contains(#first_name, :firstname) and contains(#last_name, :lastname)",
-                ExpressionAttributeNames: {
-                    "#first_name" : "first_name",
-                    "#last_name" : "last_name"
-                },
-                ExpressionAttributeValues: {
-                    ":firstname": firstName,
-                    ":lastname": lastName
-                }
-        };
-        
-        docClient.scan(params, onScan);
-        console.log(store);
-        
-        //callback();
+    docClient = new aws.DynamoDB.DocumentClient();
+    console.log("Searching for phone number...");
+
+    params = {
+        TableName: "People",//test lastname later with 'and'
+        //KeyConditionExpression: "id = :id",
+        FilterExpression: "contains(#first_name, :firstname) and contains(#last_name, :lastname)",
+        ExpressionAttributeNames: {
+            "#first_name" : "first_name",
+            "#last_name" : "last_name"
+        },
+        ExpressionAttributeValues: {
+            ":firstname": firstName,
+            ":lastname": lastName
+        }
+    };
+
+    docClient.scan(params, onScan);
+    console.log(store);
+    //callback();
 }
 
 function onScan(err, data) {
@@ -70,21 +63,18 @@ function onScan(err, data) {
                 store = item.phone;
             });
         }
-                console.log(store);
-        //callback(data.Items);
+        console.log(store);
     }
+
     if (typeof data.LastEvaluatedKey != "undefined") {
         console.log("Scanning for more...");
         params.ExclusiveStartKey = data.LastEvaluatedKey;
         docClient.scan(params, onScan);
-    }
-    else {
+    } else {
         c.emit(':tell',"The number you're looking for is " + store);
         c.emit(':ask', 'Would you like to learn how to edit your information on MSU people search?');
     }
 }
-
-var firstName, lastName, major;
 
 var handlers = {
     'LaunchRequest': function () {
@@ -106,5 +96,3 @@ var handlers = {
         }
     }
 };
-
-
