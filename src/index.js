@@ -38,12 +38,13 @@ function getPhoneNumber(context) {
     //Sanitize Name Input
     var sanitizedFirstName = firstName.substring(0,1).toUpperCase() + firstName.substring(1,firstName.length);
     var sanitizedLastName = lastName.substring(0,1).toUpperCase() + lastName.substring(1,lastName.length);
+	sanitizedLastName = sanitizedLastName.substring(0,3); //Search for substring of last name to improve accuracy
     console.log("Sanitized Name: " + sanitizedFirstName + " " + sanitizedLastName);
 
     params = {
         TableName: "People",//test lastname later with 'and'
         //KeyConditionExpression: "id = :id",
-        FilterExpression: "contains(#first_name, :firstname) and contains(#last_name, :lastname)",
+        FilterExpression: "contains(#first_name, :firstname) and contains(#last_name, :lastname) and #phone <> :space",
         ExpressionAttributeNames: {
             "#first_name" : "first_name",
             "#last_name" : "last_name"
@@ -78,8 +79,9 @@ function onScan(err, data) {
         params.ExclusiveStartKey = data.LastEvaluatedKey;
         docClient.scan(params, onScan);
     } else {
-        c.emit(':tell',"The number you're looking for is " + store);
-        c.emit(':ask', 'Would you like to learn how to edit your information on MSU people search?');
+        c.emit(':tell',"The number you're looking for is " + store 
+			 + ". To remove your information from MSU People Search, go to your stew info account, and access your directory restrictions.  Hope this helps!");
+        //c.emit(':ask', 'Would you like to learn how to edit your information on MSU people search?');
     }
 }
 
