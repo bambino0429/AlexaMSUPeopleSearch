@@ -4,23 +4,25 @@
             "intent": "GetPhoneNumber",
             "slots": [
                 {
-                  "name": "FirstName",
-                  "type": "LIST_OF_FIRST_NAMES"
+                    "name": "FirstName",
+                    "type": "LIST_OF_FIRST_NAMES"
                 },
                 {
-                  "name": "LastName",
-                  "type": "LIST_OF_LAST_NAMES"
+                    "name": "LastName",
+                    "type": "LIST_OF_LAST_NAMES"
                 },
                 {
-                  "name": "Major",
-                  "type": "LIST_OF_MAJORS"
+                    "name": "Major",
+                    "type": "LIST_OF_MAJORS"
                 }
-            ],
+            ]
+        },
+        {
             "intent": "RemoveData",
             "slots": [
                 {
-                "name": "Answer",
-                "type": "LIST_OF_ANSWERS"
+                    "name": "Answer",
+                    "type": "LIST_OF_ANSWERS"
                 }
             ]
         }
