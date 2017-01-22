@@ -16,6 +16,13 @@
                   "type": "LIST_OF_MAJORS"
                 }
             ]
+            "intent": "RemoveData",
+            "slots": [
+                {
+                "name": "Answer",
+                "type": "LIST_OF_ANSWERS"
+                }
+            ]
         }
     ]
 }
